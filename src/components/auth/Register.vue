@@ -11,7 +11,7 @@
 		<button @click="register" class="btn btn-lg btn-primary btn-block m-b-15">Register</button>
 
 		<p class="text-center">
-			Already have an account? 
+			Already have an account?
 			<router-link to="/auth/login">Sign In</router-link>
 		</p>
 	</div>
@@ -31,19 +31,15 @@
 		},
 		methods: {
 			register: function() {
-				this.$http.post(process.env.API_URL + '/users', this.user)
-					.then(function (response) {
+				this.$http.post('/users', this.user)
+					.then((response) => {
 						alertify.success(
 							"Success! You can now login with your email and password."
 						)
 						this.$router.push('/auth/login')
 					})
-					.catch(function (response) {
-						if (response.status == 422) {
-							response.body.errors.forEach((e) => {
-								alertify.error(e)
-							})
-						}
+					.catch((response) => {
+						// ERROR
 					})
 			}
 		}

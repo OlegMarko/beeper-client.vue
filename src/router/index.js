@@ -4,7 +4,7 @@ import Router from 'vue-router'
 import Auth from '@/components/auth/Auth'
 import LogIn from '@/components/auth/LogIn'
 import Register from '@/components/auth/Register'
- 
+
 Vue.use(Router)
 
 export default new Router({
@@ -16,10 +16,16 @@ export default new Router({
 			children: [
 				{
 					path: 'login',
-					component: LogIn
+          component: LogIn,
+          meta: {
+            requiresGuest: true
+          }
 				}, {
 					path: 'register',
-					component: Register
+          component: Register,
+          meta: {
+            requiresGuest: true
+          }
 				}
 			]
 		}
