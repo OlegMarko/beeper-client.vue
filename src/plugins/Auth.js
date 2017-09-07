@@ -12,14 +12,14 @@ var AuthPlugin = {
 
   getToken: function () {
     var token = localStorage.getItem('authToken')
-    var expiration = localStorage.getItem('expiration')
+    var expiration = localStorage.getItem('authTokenExpiration')
 
     if (!token || !expiration) {
       return null;
     }
 
     if (Date.now() > parseInt(expiration)) {
-      this.destroyToken
+      this.destroyToken()
       return null;
     } else {
       return token
@@ -27,7 +27,7 @@ var AuthPlugin = {
   },
 
   loggedIn: function () {
-    if (this.getToken) {
+    if (this.getToken()) {
       return true;
     } else {
       return false;

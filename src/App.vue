@@ -1,7 +1,7 @@
 <template>
-  <div id="app">
+  <transition name='scale'>
     <router-view></router-view>
-  </div>
+  </transition>
 </template>
 
 <script>

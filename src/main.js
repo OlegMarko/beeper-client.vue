@@ -25,7 +25,7 @@ Vue.http.interceptors.push((request, next) => {
 
     var token = Vue.auth.getToken()
     if (token) {
-      request.headers.set('Authoriztion', 'Bearer ' + token)
+      request.headers.set('Authorization', 'Bearer ' + token)
     }
   }
 
@@ -43,6 +43,13 @@ router.beforeEach((to, from, next) => {
   if (to.matched.some((record) => { return record.meta.requiresGuest}) && Vue.auth.loggedIn()) {
     next({
       path: '/newsfeed'
+    })
+  } else if (to.matched.some((record) => { return record.meta.requiresAuth }) && !Vue.auth.loggedIn()) {
+    next({
+      path: '/auth/login',
+      query: {
+        redirect: to.fullPath
+      }
     })
   } else {
     next()

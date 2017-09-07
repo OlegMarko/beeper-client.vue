@@ -1,14 +1,33 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 
+// Auth
 import Auth from '@/components/auth/Auth'
 import LogIn from '@/components/auth/LogIn'
 import Register from '@/components/auth/Register'
+
+// Dash
+import Dash from '@/components/dash/Dash.vue'
+import NewsFeed from '@/components/dash/NewsFead.vue'
 
 Vue.use(Router)
 
 export default new Router({
 	routes: [
+    {
+      path: '/',
+      component: Dash,
+      redirect: '/newsfeed',
+      children: [
+        {
+          path: 'newsfeed',
+          component: NewsFeed,
+          meta: {
+            requiresAuth: true
+          }
+        }
+      ]
+    },
 		{
 			path: '/auth',
 			component: Auth,
