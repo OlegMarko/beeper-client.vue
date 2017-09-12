@@ -1,7 +1,7 @@
 <template>
     <div>
         <div id="beepsWrapper">
-            <beep v-for="beep in beeps" :beep="beep"></beep>
+            <beep v-for="beep in beeps" :beep="beep" :key="beep.id"></beep>
         </div>
     </div>
 </template>
