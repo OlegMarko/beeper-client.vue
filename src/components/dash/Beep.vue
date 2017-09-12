@@ -25,7 +25,7 @@
         <div class="beepFooter">
             <button class="btn" @click="likeBeep" :class="[beep.liked ? 'btn-primary' : ' btn-default']">
                 <i class="fa fa-heart" :class="[beep.liked ? 'fa-heart' : 'fa-heart-o']"></i>
-                {{beep.likes}} like{{beep.likes != 1 ? 's' : ''}}
+                {{ beep.likes }} like{{ beep.likes != 1 ? 's' : '' }}
             </button>
             <strong class="pull-right">
                 <i class="fa fa-calendar"></i> {{ beepDate(beep.created_at) }}
@@ -46,7 +46,16 @@
         },
         methods: {
             likeBeep: function () {
-                //
+                this.$http.patch('/beeps/' + this.beep.id + '/like')
+                    .then((response) => {
+                        if (this.beep.liked) {
+                            this.beep.likes--
+                            this.beep.liked = false
+                        } else {
+                            this.beep.likes++
+                            this.beep.liked = true
+                        }
+                    })
             },
             beepDate: (timestamp) => {
                 return moment(timestamp + 1000).format("DD-MM-YYYY")
