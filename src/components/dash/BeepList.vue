@@ -43,6 +43,12 @@
                 beepsLoading: false
             }
         },
+        watch: {
+            endpoint: function () {
+                this.beeps = []
+                this.getBeeps()
+            }
+        },
         methods: {
             getBeeps: function (page) {
 
@@ -77,7 +83,7 @@
 </script>
 
 <style scoped>
-    #beepsWraper { margin: 0 -20px; }
+    #beepsWrapper { margin: 0 -20px; }
     #beepsLoading { padding: 40px; }
     #beepsLoading i { font-size: 40px; }
 </style>
