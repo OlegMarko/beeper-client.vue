@@ -10,6 +10,9 @@ import Register from '@/components/auth/Register'
 import Dash from '@/components/dash/Dash.vue'
 import NewsFeed from '@/components/dash/NewsFead.vue'
 
+// Profile
+import Profile from '@/components/dash/Profile.vue'
+
 Vue.use(Router)
 
 export default new Router({
@@ -25,6 +28,10 @@ export default new Router({
           meta: {
             requiresAuth: true
           }
+        },
+        {
+          path: 'profile/:username',
+          component: Profile
         }
       ]
     },
