@@ -43,6 +43,12 @@
                 beepsLoading: false
             }
         },
+        watch: {
+            endpoint: function () {
+                this.beeps = []
+                this.getBeeps()
+            }
+        },
         methods: {
             getBeeps: function (page) {
 
