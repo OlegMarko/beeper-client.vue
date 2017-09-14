@@ -12,48 +12,56 @@ import NewsFeed from '@/components/dash/NewsFead.vue'
 
 // Profile
 import Profile from '@/components/dash/Profile.vue'
+import Settings from '@/components/dash/Settings.vue'
 
-Vue.use(Router)
+Vue.use(Router);
 
 export default new Router({
 	routes: [
-    {
-      path: '/',
-      component: Dash,
-      redirect: '/newsfeed',
-      children: [
         {
-          path: 'newsfeed',
-          component: NewsFeed,
-          meta: {
-            requiresAuth: true
-          }
+            path: '/',
+            component: Dash,
+            redirect: '/newsfeed',
+            children: [
+                {
+                    path: 'newsfeed',
+                    component: NewsFeed,
+                    meta: {
+                        requiresAuth: true
+                    }
+                },
+                {
+                    path: 'profile/:username',
+                    component: Profile
+                },
+                {
+                    path: 'settings',
+                    component: Settings,
+                    meta: {
+                        requiresAuth: true
+                    }
+                }
+            ]
         },
         {
-          path: 'profile/:username',
-          component: Profile
+            path: '/auth',
+            component: Auth,
+            redirect: '/auth/login',
+            children: [
+                {
+                    path: 'login',
+                    component: LogIn,
+                    meta: {
+                        requiresGuest: true
+                    }
+                }, {
+                    path: 'register',
+                    component: Register,
+                    meta: {
+                        requiresGuest: true
+                    }
+                }
+            ]
         }
-      ]
-    },
-		{
-			path: '/auth',
-			component: Auth,
-			redirect: '/auth/login',
-			children: [
-				{
-					path: 'login',
-          component: LogIn,
-          meta: {
-            requiresGuest: true
-          }
-				}, {
-					path: 'register',
-          component: Register,
-          meta: {
-            requiresGuest: true
-          }
-				}
-			]
-		}
 	]
 })

@@ -31,9 +31,9 @@
       <div class="rov">
         <div class="col-sm-6">
           <p class="text-center no-margin">
-            <a href="#">
+            <router-link to="/settings">
               <i class="fa fa-cog"></i> Settings
-            </a>
+            </router-link>
           </p>
         </div>
         <div class="col-sm-6">
@@ -57,34 +57,29 @@
 </template>
 
 <script>
-  export default {
-    name: 'sidebar',
-    created: function () {
-      if (this.loggedIn) {
-        this.getUser()
-      }
-    },
-    data: function () {
-      return {
-        user: {},
-        newBeep: '',
-        loggedIn: this.$auth.loggedIn()
-      }
-    },
-    methods: {
-      logout: function () {
-        this.$auth.destroyToken()
-        this.user = {}
-        this.$router.push('/auth/login')
-      },
-      getUser: function () {
-        this.$http.get('/users/me')
-            .then((response) => {
-              this.user = response.body
-            })
-      }
+    export default {
+        name: 'sidebar',
+        created: function () {
+            //
+        },
+        data: function () {
+            return {
+                newBeep: '',
+                loggedIn: this.$auth.loggedIn()
+            }
+        },
+        computed: {
+            user: function () {
+                return this.$store.state.currentUser
+            }
+        },
+        methods: {
+            logout: function () {
+                this.$auth.destroyToken();
+                this.$router.push('/auth/login')
+            }
+        }
     }
-  }
 </script>
 
 <style>
