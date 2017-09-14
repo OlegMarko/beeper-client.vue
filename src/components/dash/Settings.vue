@@ -5,7 +5,7 @@
             <div class="form-group valign">
                 <label class="col-sm-2 control-label">Avatar</label>
                 <div class="col-sm-10 text-center">
-                    <img :src="user.avatar" alt="avatar" class="img-circle">
+                    <img :src="image ? image : user.avatar" alt="avatar" class="img-circle">
                     <div class="fileUpload btn btn-default">
                         <span>Select a file</span>
                         <input type="file" class="upload" @change="fileChange" id="imageFile">
@@ -25,6 +25,8 @@
                     <textarea rows="10" class="form-control" v-model="user.about"></textarea>
                 </div>
             </div>
+
+            <p class="text-right"><button class="btn btn-primary" type="button" @click="updateSettings">Update Info</button></p>
         </form>
     </div>
 </template>
@@ -36,18 +38,44 @@
         name: 'settings',
         data: function () {
             return {
-                user: {}
+                image: null
+            }
+        },
+        computed: {
+            user: function () {
+                return clone(this.$store.state.currentUser)
             }
         },
         methods: {
-            fileChange: function () {
-                //
+            fileChange: function (e) {
+                var reader = new FileReader()
+                reader.readAsDataURL(e.target.files[0])
+
+                var self = this
+                reader.onload = function (e) {
+                    self.image = e.target.result
+                }
             },
             uploadAvatar: function () {
-                //
+                var formData = new FormData()
+                formData.append('avatar', document.getElementById('imageFile').files[0])
+
+                this.$http.put('/users/me/avatar', formData)
+                    .then((response) => {
+                        this.user.avatar = response.body.avatar
+                        this.$store.commit('setCurrenUser', this.user)
+                        this.image = null
+
+                        alertify.success('Avatar updated!')
+                    })
             },
             updateSettings: function () {
-                //
+                this.$http.put('/users/me', this.user)
+                    .then((response) => {
+                        this.$store.commit('setCurrentUser', this.user)
+
+                        alertify.success('Settings updated!')
+                    })
             }
         }
     }
