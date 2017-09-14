@@ -16,14 +16,27 @@
 </template>
 
 <script>
-  import Sidebar from './SideBar.vue'
+    import Sidebar from './SideBar.vue'
 
-  export default {
-    name: 'dash',
-    components: {
-      sidebar: Sidebar
+    export default {
+        name: 'dash',
+        components: {
+            sidebar: Sidebar
+        },
+        created: function () {
+            if (this.$auth.loggedIn()) {
+                this.$http.get('/users/me')
+                    .then((response) => {
+                        this.$store.commit('setCurrentUser', response.body)
+                    })
+                    .catch((response) => {
+                        this.$store.commit('clearCurrentUser')
+                    })
+            } else {
+                this.$store.commit('clearCurrentUser')
+            }
+        }
     }
-  }
 </script>
 
 <style scoped>
