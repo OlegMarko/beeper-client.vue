@@ -62,9 +62,9 @@
 
                 this.$http.put('/users/me/avatar', formData)
                     .then((response) => {
-                        this.user.avatar = response.body.avatar
-                        this.$store.commit('setCurrenUser', this.user)
-                        this.image = null
+                        this.user.avatar = response.body.avatar;
+                        this.$store.commit('setCurrentUser', this.user);
+                        this.image = null;
 
                         alertify.success('Avatar updated!')
                     })
